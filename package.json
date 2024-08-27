@@ -1,0 +1,28 @@
+{
+  "name": "reversi-derek",
+  "version": "0.0.1",
+  "description": "this is a web version of reversi",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Derek453/reversi-derek.git"
+  },
+  "keywords": [
+    "reversi",
+    "code",
+    "gameDev"
+  ],
+  "author": "Derek",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Derek453/reversi-derek/issues"
+  },
+  "homepage": "https://github.com/Derek453/reversi-derek#readme",
+  "dependencies": {
+    "node-static": "^0.7.11",
+    "socket.io": "^4.7.5"
+  }
+}
