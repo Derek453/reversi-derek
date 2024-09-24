@@ -1,13 +1,66 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Reversi</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div class = "container-fluid">
+            <!--about and rules row-->
+            <div class="row m-3">
+                <!--about col-->
+                <div class="col text-center">
+                    <a class="btn btn-primary text-nowrap" target="_blank" href="about.html">About</a>
+                </div>
+
+                <!--rule col-->
+                <div class="col text-center">
+                    <a class="btn btn-primary text-nowrap" target="_blank" href="https://en.wikipedia.org/wiki/Reversi">Rules</a>
+                </div>
+            </div>
+
+            <!--logo/title-->
+            <div class="row-md m-3">
+                <div class="col text-center">
+                    <img class="img-fluid" src="./assets/images/reversi logo.png" alt="Reversi Logo"/>
+                </div>
+                <div class="col-md text-center">
+                    <span class="text-nowrap" id="reversi_logo">Reversi</span>
+                </div>
+            </div>
+
+            <!--lobby button-->
+            <div class="row align-items-center justify-content-center m-3">
+                <div class="col-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control text-nowrap fst-italic" id="nameInput" placeholder="Choose your display name" aria-label="Enter your display name for use while playing Reversi." aria-describedby="displayName"/>
+                        <button type="submit" class="btn btn-primary text-nowrap" id="lobyButton" onclick="goToLobby()">Enter Lobby</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+            function goToLobby() {
+                let username = encodeURI($('$nameInput').val());
+                window.location.href = "lobby.html?username=" + username;
+            }
+
+            $('#nameInput').keypress(function (e) {
+                let key = e.which;
+                if(key==13){
+                    $("button[id = lobbyBuuton]").click();
+                    return flase;
+                }
+            });
+        </script>
+    </body>
+
 </html>
