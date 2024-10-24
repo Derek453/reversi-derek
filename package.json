@@ -23,6 +23,6 @@
   "homepage": "https://github.com/Derek453/reversi-derek#readme",
   "dependencies": {
     "node-static": "^0.7.11",
-    "socket.io": "^4.7.5"
+    "socket.io": "^4.8.0"
   }
 }

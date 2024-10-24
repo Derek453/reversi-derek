@@ -22,10 +22,124 @@ let app = http.createServer(
     function (request, response) {
         request.addListener("end",
             function () {
-                file.serve(request, response)
+                file.serve(request, response);
             }
-        ).resume()
+        ).resume();
     }
-).listen(port)
+).listen(port);
 
-console.log("The server is running.")
+console.log("The server is running.");
+
+/***************************************************/
+/* Set up the web sockets */
+
+const { Server } = require("socket.io");
+const { join } = require("path");
+const io = new Server(app);
+
+io.on('connection', (socket) => {
+
+    /* Output a log message on the server and send it to the clients */
+    function serverLog(...messages){
+        io.emit('log', ['**** Messages from the server: \n']);
+        messages.forEach((item) => {
+            io.emit('log', ['****\t' + item]);
+            console.log(item);
+        });
+    }
+
+    serverLog('A page connected to the server: ' + socket.id);
+
+    socket.on('disconnect', () => {
+        serverLog('A page disconnected from the server: ' + socket.id);
+    });
+
+    /* join_room command handler */
+
+    /* expected payload:
+    {
+        'room': the room to be joined,
+        'username': the name of the user joining the room
+    }
+
+    join_room_reponse :
+        {
+            'result': 'success',
+            'room' : room that was joined,
+            'username': the user that joined the room,
+            'count': the number of users in the chat room
+        }
+
+        or
+
+        {
+            'result': 'fail'.
+            'message': the reason for the failure
+        }
+    */
+
+    socket.on('join_room', (payload) => {
+        serverLog('Server received a command', '\'join_room\'', JSON.stringify(payload));
+        // check that data coming from the client is good
+        if((typeof payload == 'undefined') || (payload == null)){
+            response = {};
+            response.result = 'fail';
+            response.messages = 'client did send a valid payload';
+            socket.emit('join_room_response', response);
+            serverLog('join_room_command failed', JSON.stringify(response));
+            return;
+        }
+
+        let room = payload.room;
+        let username = payload.username;
+        if((typeof room == 'undefined') || (room == null)){
+            response = {};
+            response.result = 'fail';
+            response.messages = 'client did send a valid room to join';
+            socket.emit('join_room_response', response);
+            serverLog('join_room_command failed', JSON.stringify(response));
+            return;
+        }
+        if((typeof username == 'undefined') || (username == null)){
+            response = {};
+            response.result = 'fail';
+            response.messages = 'client did send a valid username to join';
+            socket.emit('join_room_response', response);
+            serverLog('join_room_command failed', JSON.stringify(response));
+            return;
+        }
+
+        /* Handle the command */
+        socket.join(room);
+
+        /* make sure the client was put into the room*/
+        io.in(room).fetchSockets().then((sockets) =>{
+            serverLog('There are ' + sockets.length + ' clients in the room, ' + room);
+            /*Socket did not join the room */
+            if((typeof sockets == 'undefined') || (sockets == null) || !sockets.includes(socket)) {
+                response = {};
+                response.result = 'fail';
+                response.messages = 'server internal error joining chat room';
+                socket.emit('join_room_response', response);
+                serverLog('join_room_command failed', JSON.stringify(response));
+                return;
+            }
+            /*Socket did join room */
+            else{
+                response = {};
+                response.result = "success";
+                response.room = room;
+                response.username = username;
+                response.count = sockets.length;
+                /*Tell everyone that a new user joined the chat room */
+                io.of('/').to(room).emit('join_room_response', response);
+                serverLog('join_room command succeeded', JSON.stringify(response));
+            }
+        });
+
+    });
+
+    
+
+
+});
