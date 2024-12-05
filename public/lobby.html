@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <div class="row m-3 headerrow">
                 <div class="col text-center">
-                    <h3>Lobby</h3>
+                    <h3 id="lobbyTitle">Lobby</h3>
                 </div>
             </div>
         
@@ -20,15 +20,22 @@
             <div class="row m-3">
                 <div class="col">
                     <div class="row align-items-center justify-content-center m-3">
-                        <div class="col-8">
+                        <div class="col-md-4 p-3 rounded" id="playerPane">
+                            <h2>Players</h2>
+                            <div id="players" class="align-items-end text-left"></div>
+                            
+                        </div>
+                        <div class="col-md-7 p-5 rounded" id="messagePane">
+                            <div>
+                                <h1> Messages </h1>
+                            </div>
                             <div class="input-group">
                                 <input type="text" class="form-control text-nowrap" id="chatMessage" placeholder="Enter your message"/>
                                 <button type="submit" class="btn btn-primary text-nowrap" id="chatButton" onclick="sendChatMessage()">Send</button>
                             </div>
                         </div>
                     </div>
-                    <h1> Messages </h1>
-                    <div id = "messages">
+                    <div class="mt-3" id = "messages">
                         <!--Left empty for now-->
                     </div>
                 </div>
@@ -42,6 +49,12 @@
         <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
             integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
             crossorigin="anonymous"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.3/jquery-ui.min.js"
+            integrity="sha384-oVpH0DXO9nadZxTmPSQo3YwWqfN/Up9aRDHCxLrw8A2LjkFNcM/XILw4KGMaL95z" crossorigin="anonymous"></script>
+
+
+
         <script src="assets/js/main.js"></script>
 
     </body>
